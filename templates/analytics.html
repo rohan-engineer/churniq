@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChurnIQ - Deep Analytics</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="/" class="sidebar-brand">
+            <span class="brand-badge"><i class="fa-solid fa-brain"></i></span>
+            <span>ChurnIQ</span>
+        </a>
+
+        <ul class="sidebar-nav">
+            <li>
+                <a href="/" class="nav-link">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Overview</span>
+                </a>
+            </li>
+            <li>
+                <a href="/analytics" class="nav-link active">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>Deep Analytics</span>
+                </a>
+            </li>
+            <li>
+                <a href="/prediction" class="nav-link">
+                    <i class="fa-solid fa-user-check"></i>
+                    <span>Predict Customer</span>
+                </a>
+            </li>
+            <li>
+                <a href="/#model-section" class="nav-link">
+                    <i class="fa-solid fa-network-wired"></i>
+                    <span>Model Performance</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="badge bg-success rounded-pill" style="font-size: 0.65rem;">API ONLINE</span>
+                <span class="text-white-50">Telco Dataset</span>
+            </div>
+            <div>ChurnIQ Platform v1.0</div>
+        </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <header class="top-navbar">
+            <div>
+                <h1 class="page-title">Exploratory & Comparative Analytics</h1>
+                <p class="text-muted small mb-0">Uncovering the Root Causes and Behavioral Signals of Customer Attrition</p>
+            </div>
+            <div>
+                <a href="/prediction" class="btn btn-primary-blue btn-sm">
+                    <i class="fa-solid fa-calculator me-1"></i> Predict Churn
+                </a>
+            </div>
+        </header>
+
+        <main class="content-body">
+            <!-- Row 1: Payment Method & Tenure -->
+            <div class="row g-3 mb-4">
+                <!-- Payment Method Analysis -->
+                <div class="col-lg-6">
+                    <div class="chart-card h-100">
+                        <h3 class="card-title">Churn by Payment Method</h3>
+                        <p class="card-subtitle">Electronic check users demonstrate highest churn risk compared to automatic credit/bank draft</p>
+                        <div style="height: 320px; position: relative;">
+                            <canvas id="paymentChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tenure Cohort Analysis -->
+                <div class="col-lg-6">
+                    <div class="chart-card h-100">
+                        <h3 class="card-title">Tenure Cohort Breakdown</h3>
+                        <p class="card-subtitle">Attrition heavily concentrates in the first 12 months before loyalty solidifies</p>
+                        <div style="height: 320px; position: relative;">
+                            <canvas id="tenureChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: Monthly Charges & Service Usage Patterns -->
+            <div class="row g-3 mb-4">
+                <!-- Monthly Charges Insights -->
+                <div class="col-lg-5">
+                    <div class="chart-card h-100">
+                        <h3 class="card-title">Monthly Charges Impact</h3>
+                        <p class="card-subtitle">Financial threshold comparison between retained and churned cohorts</p>
+                        
+                        <div class="p-3 bg-light rounded border mb-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Mean Monthly Fee:</span>
+                                <strong class="text-navy">$64.76 / mo</strong>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Median Monthly Fee:</span>
+                                <strong class="text-navy">$70.35 / mo</strong>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Fee Range (Min - Max):</span>
+                                <strong class="text-navy">$18.25 - $118.75</strong>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info py-2 px-3 small border-0 mb-0">
+                            <i class="fa-solid fa-circle-info me-1"></i> Customers paying over $75/mo without security or tech support add-ons represent the highest risk bracket.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Service Usage Patterns -->
+                <div class="col-lg-7">
+                    <div class="chart-card h-100">
+                        <h3 class="card-title">Customer Service Usage Patterns</h3>
+                        <p class="card-subtitle">Protection add-on adoption rates across all 7,043 customers</p>
+                        <div class="table-responsive">
+                            <table class="table table-custom align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Service Product</th>
+                                        <th>Active Subscriptions</th>
+                                        <th>Adoption Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="serviceStatsTable">
+                                    <tr>
+                                        <td colspan="3" class="text-center text-muted">Loading service patterns...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pre-rendered Static EDA Visualizations from reports/ -->
+            <div class="chart-card">
+                <h3 class="card-title mb-3">High-Resolution Statistical Plots</h3>
+                <p class="card-subtitle">Generated directly from the raw dataset via Matplotlib and Seaborn</p>
+
+                <div class="row g-3">
+                    <div class="col-md-6 text-center">
+                        <h6 class="fw-bold text-muted small text-uppercase">Tenure vs Churn Distribution (KDE)</h6>
+                        <img src="/reports/eda_tenure_distribution.png" alt="Tenure Distribution" class="img-fluid rounded border shadow-sm mt-1">
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <h6 class="fw-bold text-muted small text-uppercase">Monthly Charges Boxplot</h6>
+                        <img src="/reports/eda_monthly_charges.png" alt="Monthly Charges Boxplot" class="img-fluid rounded border shadow-sm mt-1">
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/js/dashboard.js"></script>
+</body>
+</html>
